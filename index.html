@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anireeth Eagala — Data Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:       #0C0E12;
+  --ink2:      #111418;
+  --ink3:      #161B22;
+  --surface:   #1A2030;
+  --surface2:  #1F2638;
+  --gold:      #BF9B5A;
+  --gold2:     #D4B278;
+  --gold3:     #EDD49A;
+  --goldglow:  rgba(191,155,90,0.14);
+  --goldbdr:   rgba(191,155,90,0.28);
+  --goldbdr2:  rgba(191,155,90,0.5);
+  --slate:     #8A96A8;
+  --slate2:    #B0BBCC;
+  --slate3:    #CDD5E0;
+  --dim:       rgba(255,255,255,0.05);
+  --bdr:       rgba(255,255,255,0.07);
+  --teal:      #38B2A0;
+  --teal-soft: rgba(56,178,160,0.1);
+  --teal-bdr:  rgba(56,178,160,0.28);
+  --cream:     #F2EDE4;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--goldbdr2); }
+
+body::after {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' fill='rgba(255,255,255,0.018)'/%3E%3C/svg%3E");
+}
+
+/* ─── NAV ─── */
+nav {
+  position:fixed; top:0; width:100%; z-index:999;
+  height:68px; padding:0 7%;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(12,14,18,0.92);
+  backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--bdr);
+}
+.n-logo { display:flex; align-items:center; gap:13px; text-decoration:none; }
+.n-seal {
+  width:38px; height:38px; border-radius:50%;
+  border:1.5px solid var(--goldbdr2);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Playfair Display',serif; font-size:0.9rem; font-weight:700;
+  color:var(--gold); letter-spacing:0.04em; flex-shrink:0;
+  background:radial-gradient(circle at 40% 35%, rgba(191,155,90,0.12), transparent 70%);
+}
+.n-text { line-height:1.25; }
+.n-name { font-size:0.82rem; font-weight:600; color:var(--cream); letter-spacing:0.04em; }
+.n-sub  { font-size:0.65rem; font-weight:400; color:var(--slate); letter-spacing:0.1em; text-transform:uppercase; }
+nav ul  { display:flex; gap:32px; list-style:none; align-items:center; }
+nav a   { color:var(--slate); text-decoration:none; font-size:0.72rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; transition:color .2s; }
+nav a:hover { color:var(--gold2); }
+.n-hire {
+  padding:8px 22px; border-radius:3px;
+  border:1px solid var(--goldbdr2);
+  color:var(--gold2) !important; background:var(--goldglow);
+  transition:background .2s !important;
+}
+.n-hire:hover { background:rgba(191,155,90,0.22) !important; }
+
+/* ─── HERO ─── */
+#home {
+  position:relative; z-index:1;
+  min-height:100vh; display:flex; align-items:center;
+  padding:88px 7% 80px;
+  overflow:hidden;
+}
+.hero-glow {
+  position:absolute; pointer-events:none;
+  width:900px; height:900px; border-radius:50%;
+  background:radial-gradient(circle, rgba(191,155,90,0.07) 0%, transparent 65%);
+  top:-300px; right:-200px; z-index:0;
+}
+.hero-glow2 {
+  position:absolute; pointer-events:none;
+  width:600px; height:600px; border-radius:50%;
+  background:radial-gradient(circle, rgba(56,178,160,0.05) 0%, transparent 65%);
+  bottom:-100px; left:-100px; z-index:0;
+}
+.hero-grid-lines {
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.018) 0px, rgba(255,255,255,0.018) 1px, transparent 1px, transparent 80px),
+    repeating-linear-gradient(0deg,  rgba(255,255,255,0.018) 0px, rgba(255,255,255,0.018) 1px, transparent 1px, transparent 80px);
+}
+.hero-wrap {
+  position:relative; z-index:1;
+  max-width:1260px; margin:0 auto; width:100%;
+  display:grid; grid-template-columns:1fr 380px; gap:90px; align-items:center;
+}
+
+.hero-tag {
+  display:inline-flex; align-items:center; gap:10px;
+  margin-bottom:32px;
+  font-size:0.65rem; font-weight:600; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--gold);
+  opacity:0; animation:fadeUp .7s .1s ease forwards;
+}
+.hero-tag-line { width:36px; height:1px; background:var(--gold); }
+
+.hero-h1 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3.4rem,5.5vw,5.2rem);
+  font-weight:700; line-height:1.02;
+  color:#fff; letter-spacing:-0.02em;
+  margin-bottom:10px;
+  opacity:0; animation:fadeUp .7s .18s ease forwards;
+}
+.hero-h1 span { color:var(--gold2); font-style:italic; font-weight:400; }
+
+.hero-divider {
+  width:56px; height:2px;
+  background:linear-gradient(90deg, var(--gold), transparent);
+  margin:22px 0;
+  opacity:0; animation:fadeUp .7s .25s ease forwards;
+}
+
+.hero-tagline {
+  font-size:0.78rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--teal); margin-bottom:22px;
+  opacity:0; animation:fadeUp .7s .3s ease forwards;
+}
+
+.hero-desc {
+  max-width:520px; font-size:0.93rem; color:var(--slate2); line-height:1.95;
+  margin-bottom:40px;
+  opacity:0; animation:fadeUp .7s .36s ease forwards;
+}
+
+.hero-kpis {
+  display:flex; gap:0; margin-bottom:44px;
+  border:1px solid var(--bdr); border-radius:6px; overflow:hidden;
+  opacity:0; animation:fadeUp .7s .42s ease forwards;
+}
+.kpi {
+  flex:1; padding:20px 24px; text-align:center;
+  border-right:1px solid var(--bdr);
+  background:var(--dim);
+}
+.kpi:last-child { border-right:none; }
+.kpi-val {
+  font-family:'Playfair Display',serif;
+  font-size:2.1rem; font-weight:700; color:var(--gold2); line-height:1;
+  display:block; margin-bottom:6px;
+}
+.kpi-lbl {
+  font-size:0.62rem; font-weight:500; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--slate);
+}
+
+.hero-btns {
+  display:flex; gap:14px; flex-wrap:wrap;
+  opacity:0; animation:fadeUp .7s .48s ease forwards;
+}
+.btn-a {
+  display:inline-flex; align-items:center; gap:10px;
+  padding:14px 32px; border-radius:4px;
+  background:var(--gold); color:var(--ink); font-weight:700;
+  font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase;
+  text-decoration:none; transition:filter .2s,transform .2s;
+}
+.btn-a:hover { filter:brightness(1.08); transform:translateY(-2px); }
+.btn-b {
+  display:inline-flex; align-items:center; gap:10px;
+  padding:13px 32px; border-radius:4px;
+  border:1px solid var(--bdr); color:var(--slate2);
+  font-size:0.75rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase;
+  text-decoration:none; transition:border-color .2s,color .2s;
+}
+.btn-b:hover { border-color:var(--goldbdr2); color:var(--gold2); }
+
+/* portrait */
+.portrait-col {
+  display:flex; flex-direction:column; align-items:center;
+  opacity:0; animation:fadeUp .8s .22s ease forwards;
+}
+.portrait-stage { position:relative; width:310px; }
+.portrait-stage::before {
+  content:''; position:absolute;
+  inset:0; border-radius:8px;
+  border:1px solid rgba(191,155,90,0.2);
+  transform:translate(12px,14px); z-index:0;
+}
+.pframe {
+  position:relative; z-index:2;
+  width:310px; height:370px;
+  border-radius:6px; overflow:hidden;
+  border:1.5px solid var(--goldbdr2);
+  background:var(--surface);
+}
+.pframe img {
+  width:100%; height:100%; object-fit:cover; object-position:top center;
+  display:block; filter:saturate(0.88) contrast(1.05) brightness(0.97);
+}
+.pframe-overlay {
+  position:absolute; inset:0; z-index:1;
+  background:linear-gradient(to top, rgba(12,14,18,0.55) 0%, transparent 55%);
+}
+.pframe-init {
+  width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Playfair Display',serif; font-size:5rem; font-weight:700;
+  color:var(--gold); background:var(--surface2);
+}
+.corner { position:absolute; width:20px; height:20px; z-index:3; }
+.c-tl { top:-1px;  left:-1px;  border-top:2px solid var(--gold); border-left:2px solid var(--gold); }
+.c-tr { top:-1px;  right:-1px; border-top:2px solid var(--gold); border-right:2px solid var(--gold); }
+.c-bl { bottom:-1px; left:-1px;  border-bottom:2px solid var(--gold); border-left:2px solid var(--gold); }
+.c-br { bottom:-1px; right:-1px; border-bottom:2px solid var(--gold); border-right:2px solid var(--gold); }
+.avail-chip {
+  position:absolute; bottom:-18px; left:50%; transform:translateX(-50%);
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--ink2); border:1.5px solid var(--goldbdr2);
+  padding:8px 20px; border-radius:30px; white-space:nowrap; z-index:4;
+}
+.avail-dot {
+  width:7px; height:7px; border-radius:50%; background:#4ADE80;
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+.avail-txt { font-size:0.68rem; font-weight:600; letter-spacing:0.1em; color:var(--gold3); text-transform:uppercase; }
+
+.badge-row { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:50px; }
+.pbadge {
+  font-size:0.63rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase;
+  padding:5px 13px; border-radius:2px;
+  background:var(--goldglow); border:1px solid var(--goldbdr);
+  color:var(--gold2);
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(22px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ─── SECTION SHELL ─── */
+.sec { position:relative; z-index:1; padding:104px 7%; }
+.sec.alt { background:var(--ink2); }
+.sec-max { max-width:1260px; margin:0 auto; }
+
+.overline {
+  display:flex; align-items:center; gap:10px; margin-bottom:12px;
+  font-size:0.63rem; font-weight:600; letter-spacing:0.24em; text-transform:uppercase;
+  color:var(--gold);
+}
+.overline::before { content:''; width:28px; height:1px; background:var(--gold); }
+
+.sec-title {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,3.2vw,2.75rem); font-weight:700;
+  color:#fff; line-height:1.15; margin-bottom:60px;
+}
+.sec-title em { font-style:italic; font-weight:400; color:var(--gold2); }
+
+.hr { max-width:1260px; margin:0 auto; height:1px; background:linear-gradient(90deg,transparent,var(--bdr),transparent); }
+
+/* ─── ABOUT ─── */
+.about-grid { display:grid; grid-template-columns:1.15fr 0.85fr; gap:80px; align-items:start; }
+.about-body { font-size:0.91rem; color:var(--slate2); line-height:2; }
+.about-body p { margin-bottom:18px; }
+.about-nums {
+  display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:36px;
+}
+.astat {
+  padding:22px 18px; border-radius:6px;
+  background:var(--dim); border:1px solid var(--bdr);
+  border-left:2px solid var(--gold);
+  transition:border-color .2s;
+}
+.astat:hover { border-color:var(--goldbdr2); border-left-color:var(--gold2); }
+.astat-n {
+  font-family:'Playfair Display',serif;
+  font-size:1.9rem; font-weight:700; color:var(--gold2); line-height:1;
+  display:block; margin-bottom:5px;
+}
+.astat-l { font-size:0.67rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--slate); }
+
+.cert-stack { display:flex; flex-direction:column; gap:11px; }
+.crt {
+  display:flex; align-items:center; gap:15px;
+  padding:15px 18px; border-radius:6px;
+  background:var(--dim); border:1px solid var(--bdr);
+  transition:border-color .25s, transform .25s;
+}
+.crt:hover { border-color:var(--goldbdr2); transform:translateX(5px); }
+.crt-ico {
+  width:36px; height:36px; flex-shrink:0; border-radius:5px;
+  background:var(--goldglow); border:1px solid var(--goldbdr);
+  display:flex; align-items:center; justify-content:center;
+}
+.crt-ico svg { width:15px; height:15px; stroke:var(--gold); stroke-width:1.8; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+.crt-name { font-size:0.83rem; font-weight:500; color:var(--cream); }
+.crt-sub  { font-size:0.7rem; color:var(--slate); margin-top:2px; }
+.pill {
+  margin-left:auto; flex-shrink:0; font-size:0.62rem; font-weight:600;
+  letter-spacing:0.08em; padding:3px 10px; border-radius:2px;
+}
+.pill-on  { background:var(--teal-soft); border:1px solid var(--teal-bdr); color:var(--teal); }
+
+/* ─── SKILLS ─── */
+.skill-row { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-bottom:18px; }
+.sk {
+  padding:28px 24px; border-radius:7px;
+  background:var(--dim); border:1px solid var(--bdr);
+  position:relative; overflow:hidden;
+  transition:border-color .25s,transform .25s;
+}
+.sk::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1.5px;
+  background:linear-gradient(90deg,var(--gold),rgba(191,155,90,0)); opacity:0;
+  transition:opacity .25s;
+}
+.sk:hover { border-color:var(--goldbdr); transform:translateY(-3px); }
+.sk-hover::before { opacity:1; }
+.sk-icon {
+  width:42px; height:42px; border-radius:7px; margin-bottom:18px;
+  background:var(--goldglow); border:1px solid var(--goldbdr);
+  display:flex; align-items:center; justify-content:center;
+}
+.sk-icon svg { width:18px; height:18px; stroke:var(--gold); stroke-width:1.7; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+.sk-cat { font-size:0.65rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:14px; }
+.tags { display:flex; flex-wrap:wrap; gap:7px; }
+.tg {
+  font-size:0.73rem; color:var(--slate2);
+  padding:5px 11px; border-radius:3px;
+  border:1px solid var(--bdr); background:rgba(255,255,255,0.03);
+  transition:color .15s,border-color .15s;
+}
+.tg:hover { color:var(--gold3); border-color:var(--goldbdr); }
+.tools-strip {
+  padding:20px 26px; border-radius:7px;
+  background:var(--dim); border:1px solid var(--bdr);
+  display:flex; flex-wrap:wrap; align-items:center; gap:10px;
+}
+.t-lbl { font-size:0.63rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-right:8px; flex-shrink:0; }
+.tool {
+  font-size:0.73rem; color:var(--slate2); padding:5px 14px;
+  border-radius:20px; border:1px solid var(--goldbdr);
+  background:var(--goldglow); transition:color .15s,background .15s;
+}
+.tool:hover { color:var(--gold3); background:rgba(191,155,90,0.2); }
+
+/* ─── EXPERIENCE ─── */
+.xp-wrap { padding-left:36px; position:relative; }
+.xp-wrap::before {
+  content:''; position:absolute; left:0; top:6px; bottom:0; width:1px;
+  background:linear-gradient(to bottom, var(--goldbdr2) 0%, transparent 100%);
+}
+.xp {
+  position:relative; margin-bottom:52px;
+  padding:28px 32px; border-radius:8px;
+  background:var(--dim); border:1px solid var(--bdr);
+  transition:border-color .25s;
+}
+.xp:hover { border-color:var(--goldbdr); }
+.xp::before {
+  content:''; position:absolute;
+  left:-40px; top:28px;
+  width:9px; height:9px; border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 0 3px var(--ink),0 0 0 5px rgba(191,155,90,0.28);
+}
+.xp-header { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:6px; }
+.xp-role { font-family:'Playfair Display',serif; font-size:1.18rem; font-weight:600; color:#fff; line-height:1.25; }
+.xp-period {
+  flex-shrink:0; font-size:0.63rem; font-weight:600; letter-spacing:0.09em;
+  padding:5px 13px; border-radius:2px;
+  background:var(--goldglow); border:1px solid var(--goldbdr); color:var(--gold2);
+  white-space:nowrap;
+}
+.xp-co { font-size:0.78rem; color:var(--slate); margin-bottom:18px; }
+.xp-co strong { color:var(--slate2); font-weight:500; }
+.xp-pts { list-style:none; display:flex; flex-direction:column; gap:9px; }
+.xp-pts li {
+  font-size:0.86rem; color:var(--slate2); padding-left:20px;
+  position:relative; line-height:1.78;
+}
+.xp-pts li::before {
+  content:''; position:absolute; left:0; top:10px;
+  width:6px; height:1px; background:var(--gold);
+}
+
+/* ─── PROJECTS ─── */
+.pj-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+.pj {
+  padding:36px 32px; border-radius:8px;
+  background:var(--dim); border:1px solid var(--bdr);
+  position:relative; overflow:hidden;
+  transition:border-color .25s,transform .25s;
+}
+.pj::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:1.5px;
+  background:linear-gradient(90deg, rgba(56,178,160,0), var(--teal), rgba(56,178,160,0));
+  opacity:0; transition:opacity .25s;
+}
+.pj:hover { border-color:var(--teal-bdr); transform:translateY(-4px); }
+.pj:hover::after { opacity:1; }
+.pj-type {
+  font-size:0.62rem; font-weight:600; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--teal); margin-bottom:12px;
+  display:flex; align-items:center; gap:8px;
+}
+.pj-type::before { content:''; width:16px; height:1px; background:var(--teal); }
+.pj-title { font-family:'Playfair Display',serif; font-size:1.18rem; font-weight:600; color:#fff; margin-bottom:8px; line-height:1.3; }
+.pj-org { font-size:0.73rem; color:var(--slate); margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid var(--bdr); }
+.pj-desc { font-size:0.84rem; color:var(--slate2); line-height:1.88; }
+
+/* ─── EDUCATION ─── */
+.edu-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+.edu {
+  display:flex; gap:22px; align-items:flex-start;
+  padding:30px 28px; border-radius:8px;
+  background:var(--dim); border:1px solid var(--bdr);
+  transition:border-color .25s;
+}
+.edu:hover { border-color:var(--goldbdr); }
+.edu-icon {
+  width:50px; height:50px; flex-shrink:0; border-radius:7px;
+  background:var(--goldglow); border:1.5px solid var(--goldbdr);
+  display:flex; align-items:center; justify-content:center;
+}
+.edu-icon svg { width:20px; height:20px; stroke:var(--gold); stroke-width:1.6; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+.edu-deg { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:600; color:#fff; margin-bottom:6px; line-height:1.3; }
+.edu-sch { font-size:0.78rem; color:var(--slate2); margin-bottom:6px; line-height:1.5; }
+.edu-yr  { font-size:0.68rem; font-weight:600; letter-spacing:0.1em; color:var(--gold); }
+
+/* ─── CONTACT ─── */
+.ct-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.ct-hl { font-family:'Playfair Display',serif; font-size:clamp(2rem,3vw,2.7rem); font-weight:700; color:#fff; line-height:1.2; margin-bottom:18px; }
+.ct-hl em { font-style:italic; font-weight:400; color:var(--gold2); }
+.ct-avail {
+  display:inline-flex; align-items:center; gap:9px;
+  padding:8px 18px; border-radius:20px; margin-bottom:22px;
+  background:rgba(74,222,128,0.07); border:1px solid rgba(74,222,128,0.2);
+  font-size:0.68rem; font-weight:600; letter-spacing:0.09em; color:#4ADE80;
+}
+.ct-sub { font-size:0.88rem; color:var(--slate2); line-height:1.95; margin-bottom:32px; max-width:400px; }
+.ct-links { display:flex; flex-direction:column; gap:11px; }
+.ct-row {
+  display:flex; align-items:center; gap:16px;
+  padding:16px 20px; border-radius:6px;
+  background:var(--dim); border:1px solid var(--bdr);
+  text-decoration:none; transition:border-color .2s,transform .2s;
+}
+.ct-row:hover { border-color:var(--goldbdr2); transform:translateX(5px); }
+.ct-ico {
+  width:38px; height:38px; flex-shrink:0; border-radius:4px;
+  background:var(--goldglow); border:1px solid var(--goldbdr);
+  display:flex; align-items:center; justify-content:center;
+}
+.ct-ico svg { width:15px; height:15px; stroke:var(--gold); stroke-width:1.8; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+.ct-lbl { font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--slate); display:block; margin-bottom:2px; }
+.ct-val { font-size:0.84rem; font-weight:500; color:var(--cream); }
+
+/* ─── FOOTER ─── */
+footer {
+  position:relative; z-index:1;
+  background:var(--ink2); border-top:1px solid var(--bdr);
+  padding:26px 7%;
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+}
+.ft-l { font-family:'Playfair Display',serif; font-size:1rem; color:var(--gold); }
+.ft-c { font-size:0.7rem; color:var(--slate); }
+.ft-r { display:flex; gap:22px; }
+.ft-r a { font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--slate); text-decoration:none; transition:color .2s; }
+.ft-r a:hover { color:var(--gold2); }
+
+@media(max-width:1100px){
+  .hero-wrap { grid-template-columns:1fr; gap:60px; }
+  .portrait-col { order:-1; }
+  .portrait-stage { width:240px; }
+  .pframe { width:240px; height:285px; }
+  .about-grid,.ct-grid { grid-template-columns:1fr; gap:48px; }
+  .skill-row { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:768px){
+  nav ul { display:none; }
+  .skill-row,.pj-grid,.edu-grid { grid-template-columns:1fr; }
+  .hero-kpis { flex-direction:column; }
+  .kpi { border-right:none; border-bottom:1px solid var(--bdr); }
+  .kpi:last-child { border-bottom:none; }
+  .sec { padding:72px 5%; }
+  .xp-wrap { padding-left:20px; }
+  .xp { padding:22px 18px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="n-logo" href="#home">
+    <div class="n-seal">AE</div>
+    <div class="n-text">
+      <div class="n-name">Anireeth Eagala</div>
+      <div class="n-sub">Data Engineer</div>
+    </div>
+  </a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact" class="n-hire">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="home">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-wrap">
+
+    <div>
+      <div class="hero-tag"><span class="hero-tag-line"></span>Data Engineer · Farmington, MI</div>
+      <h1 class="hero-h1">Anireeth<br><span>Eagala</span></h1>
+      <div class="hero-divider"></div>
+      <p class="hero-tagline">Cloud-Native Pipelines &nbsp;·&nbsp; DataOps &nbsp;·&nbsp; Generative AI</p>
+      <p class="hero-desc">Data Engineer with 3+ years of experience designing scalable ETL/ELT pipelines, dimensional data models, and cloud-native platforms across AWS, Azure, GCP, and Snowflake. Expert in Python, Spark, and AI-enabled data workflows.</p>
+      <div class="hero-kpis">
+        <div class="kpi"><span class="kpi-val">3+</span><span class="kpi-lbl">Years Experience</span></div>
+        <div class="kpi"><span class="kpi-val">5TB+</span><span class="kpi-lbl">Daily Throughput</span></div>
+        <div class="kpi"><span class="kpi-val">60%</span><span class="kpi-lbl">Query Optimization</span></div>
+        <div class="kpi"><span class="kpi-val">40%</span><span class="kpi-lbl">Incident Reduction</span></div>
+      </div>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-a">View Contact &rarr;</a>
+        <a href="#experience" class="btn-b">View Experience</a>
+      </div>
+    </div>
+
+    <div class="portrait-col">
+      <div class="portrait-stage">
+        <div class="pframe">
+          <img src="IMG_8121[1].JPG" alt="Anireeth Eagala"
+            onerror="this.style.display='none'; document.querySelector('.pframe-init').style.display='flex';">
+          <div class="pframe-init" style="display:none;">AE</div>
+          <div class="pframe-overlay"></div>
+        </div>
+        <div class="corner c-tl"></div>
+        <div class="corner c-tr"></div>
+        <div class="corner c-bl"></div>
+        <div class="corner c-br"></div>
+        <div class="avail-chip">
+          <div class="avail-dot"></div>
+          <span class="avail-txt">Open to Relocation</span>
+        </div>
+      </div>
+      <div class="badge-row">
+        <span class="pbadge">NJIT MSCS</span>
+        <span class="pbadge">AWS Certified</span>
+        <span class="pbadge">Azure Fundamentals</span>
+        <span class="pbadge">OCI Certified</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<section class="sec" id="about">
+  <div class="sec-max">
+    <div class="overline">Professional Summary</div>
+    <h2 class="sec-title">About <em>Me</em></h2>
+    <div class="about-grid">
+      <div>
+        <div class="about-body">
+          <p>I am a Data Engineer specializing in building scalable cloud-native data platforms and high-performance ETL/ELT pipelines. My expertise lies in bridging the gap between raw data and actionable intelligence through robust DataOps and modern data stack architectures.</p>
+          <p>Currently at Humana, I architect AI-enabled microservices on Google Kubernetes Engine and design advanced RAG use cases. My background spans real-time streaming with Kafka and Event Hubs, large-scale processing with Spark and Databricks, and automated infrastructure using Terraform and Kubernetes.</p>
+          <p>I am passionate about building production-grade data solutions that maintain high reliability, sub-minute latency, and seamless scalability in Agile environments.</p>
+        </div>
+        <div class="about-nums">
+          <div class="astat"><span class="astat-n">5TB+</span><span class="astat-l">Data Processed Daily</span></div>
+          <div class="astat"><span class="astat-n">15+</span><span class="astat-l">Enterprise Workflows</span></div>
+          <div class="astat"><span class="astat-n">30%</span><span class="astat-l">Compute Cost Savings</span></div>
+          <div class="astat"><span class="astat-n">1M+</span><span class="astat-l">Records Pipeline Ingestion</span></div>
+        </div>
+      </div>
+      <div class="cert-stack">
+        <div class="crt">
+          <div class="crt-ico"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+          <div><div class="crt-name">Oracle Cloud Infrastructure 2025</div><div class="crt-sub">Certified Foundations Associate</div></div>
+          <span class="pill pill-on">Active</span>
+        </div>
+        <div class="crt">
+          <div class="crt-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8M12 8v8"/></svg></div>
+          <div><div class="crt-name">Microservices Foundations</div><div class="crt-sub">Kong Professional Certificate</div></div>
+          <span class="pill pill-on">Active</span>
+        </div>
+        <div class="crt">
+          <div class="crt-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div><div class="crt-name">Azure &amp; AWS Fundamentals</div><div class="crt-sub">Cloud Practitioner &amp; Foundations</div></div>
+          <span class="pill pill-on">Active</span>
+        </div>
+        <div class="crt">
+          <div class="crt-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></div>
+          <div><div class="crt-name">SQL Masterclass</div><div class="crt-sub">Advanced CTEs &amp; Analytics</div></div>
+          <span class="pill pill-on">Active</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<section class="sec alt" id="skills">
+  <div class="sec-max">
+    <div class="overline">Core Competencies</div>
+    <h2 class="sec-title">Technical <em>Stack</em></h2>
+    <div class="skill-row">
+      <div class="sk">
+        <div class="sk-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+        <div class="sk-cat">Pipeline &amp; Data Platforms</div>
+        <div class="tags">
+          <span class="tg">Apache Airflow</span><span class="tg">Azure Data Factory</span><span class="tg">Snowflake</span><span class="tg">Databricks</span><span class="tg">dbt</span><span class="tg">Apache Spark</span><span class="tg">Kafka</span><span class="tg">Event Hubs</span>
+        </div>
+      </div>
+      <div class="sk">
+        <div class="sk-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="sk-cat">DevOps &amp; Infrastructure</div>
+        <div class="tags">
+          <span class="tg">Kubernetes (GKE/EKS)</span><span class="tg">Docker</span><span class="tg">Terraform</span><span class="tg">Helm</span><span class="tg">ArgoCD</span><span class="tg">GitHub Actions</span><span class="tg">GitLab CI/CD</span><span class="tg">Infrastructure as Code</span>
+        </div>
+      </div>
+      <div class="sk">
+        <div class="sk-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="sk-cat">Languages &amp; AI</div>
+        <div class="tags">
+          <span class="tg">Python (PySpark/Pandas)</span><span class="tg">SQL (Advanced)</span><span class="tg">Java</span><span class="tg">R</span><span class="tg">Retrieval-Augmented Generation</span><span class="tg">Vertex AI</span><span class="tg">pgvector</span>
+        </div>
+      </div>
+    </div>
+    <div class="tools-strip">
+      <span class="t-lbl">Cloud Platforms</span>
+      <span class="tool">AWS (S3, Glue, Redshift)</span><span class="tool">Azure (ADLS, Data Factory)</span><span class="tool">Google Cloud (GKE, Vertex AI)</span>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<section class="sec" id="experience">
+  <div class="sec-max">
+    <div class="overline">Career Path</div>
+    <h2 class="sec-title">Professional <em>Experience</em></h2>
+    <div class="xp-wrap">
+
+      <div class="xp">
+        <div class="xp-header">
+          <div class="xp-role">Data and Cloud Engineer</div>
+          <span class="xp-period">Jun 2025 – Present</span>
+        </div>
+        <div class="xp-co"><strong>Humana</strong> &nbsp;·&nbsp; Kentucky, USA</div>
+        <ul class="xp-pts">
+          <li>Deployed scalable DataOps pipelines and AI microservices on GKE, supporting 15+ enterprise workflows.</li>
+          <li>Architected dimensional data models in PostgreSQL with pgvector to enable advanced RAG use cases.</li>
+          <li>Built Kubernetes-native deployments using Helm, ArgoCD, and Terraform for version-controlled infrastructure.</li>
+          <li>Implemented observability and monitoring for data workflows, ensuring platform reliability.</li>
+        </ul>
+      </div>
+
+      <div class="xp">
+        <div class="xp-header">
+          <div class="xp-role">Data Engineer</div>
+          <span class="xp-period">Jun 2020 – Dec 2023</span>
+        </div>
+        <div class="xp-co"><strong>Tech Mahindra</strong> &nbsp;·&nbsp; Hyderabad, India</div>
+        <ul class="xp-pts">
+          <li>Built ETL/ELT pipelines on Azure using ADF and PySpark, processing 5TB+ of data daily with <10m latency.</li>
+          <li>Engineered real-time ingestion frameworks using Azure Event Hubs and Databricks Structured Streaming.</li>
+          <li>Optimized Databricks cluster configurations and SQL plans, reducing compute costs by 30%.</li>
+          <li>Designed dimensional models with SCD logic, improving BI query performance for 3 downstream teams.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<section class="sec alt" id="projects">
+  <div class="sec-max">
+    <div class="overline">Recent Projects</div>
+    <h2 class="sec-title">Engineering <em>Showcase</em></h2>
+    <div class="pj-grid">
+      <div class="pj">
+        <div class="pj-type">Cloud Pipeline · 2025</div>
+        <h3 class="pj-title">Airbnb Modern Data Stack</h3>
+        <div class="pj-org">AWS, Snowflake, dbt</div>
+        <p class="pj-desc">Built an end-to-end pipeline ingesting 1M+ records from S3 into Snowflake across staging, intermediate, and mart layers. Developed dbt models and automated tests to enforce data quality and reduced query time by 60%.</p>
+      </div>
+      <div class="pj">
+        <div class="pj-type">Analytics Engine · 2024</div>
+        <h3 class="pj-title">Netflix Data Engineering Pipeline</h3>
+        <div class="pj-org">dbt, Snowflake, Python</div>
+        <p class="pj-desc">Designed modular dbt pipelines for structured analytics datasets. Implemented automated data quality checks and dbt snapshots for historical tracking, reducing data incidents by 40% through rigorous validation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<section class="sec" id="education">
+  <div class="sec-max">
+    <div class="overline">Academic History</div>
+    <h2 class="sec-title">Education &amp; <em>Degrees</em></h2>
+    <div class="edu-grid">
+      <div class="edu">
+        <div class="edu-icon"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+        <div>
+          <div class="edu-deg">MS in Computer and Information Science</div>
+          <div class="edu-sch">New Jersey Institute of Technology (NJIT) · Newark, NJ</div>
+          <div class="edu-yr">Graduated May 2025</div>
+        </div>
+      </div>
+      <div class="edu">
+        <div class="edu-icon"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div>
+        <div>
+          <div class="edu-deg">Bachelor of Technology in Information Technology</div>
+          <div class="edu-sch">Jawaharlal Nehru Technological University · Hyderabad, India</div>
+          <div class="edu-yr">Graduated July 2022</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<section class="sec alt" id="contact">
+  <div class="sec-max">
+    <div class="ct-grid">
+      <div>
+        <div class="overline">Get in Touch</div>
+        <h2 class="ct-hl">Available for <em>Collaborations</em></h2>
+        <div class="ct-avail"><div class="avail-dot"></div>Open to Relocation · USA</div>
+        <p class="ct-sub">Looking for a Data Engineer to scale your data platform or implement Generative AI workflows? Let's connect.</p>
+        <a href="mailto:anireeth7@gmail.com" class="btn-a">Send an Email &rarr;</a>
+      </div>
+      <div class="ct-links">
+        <a class="ct-row" href="tel:7345890924">
+          <div class="ct-ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.58 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6.29 6.29l1.8-1.8a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div><span class="ct-lbl">Phone</span><span class="ct-val">(734) 589-0924</span></div>
+        </a>
+        <a class="ct-row" href="mailto:anireeth7@gmail.com">
+          <div class="ct-ico"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div><span class="ct-lbl">Email</span><span class="ct-val">anireeth7@gmail.com</span></div>
+        </a>
+        <a class="ct-row" href="https://linkedin.com/in/anireeth-eagala007" target="_blank">
+          <div class="ct-ico"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+          <div><span class="ct-lbl">LinkedIn</span><span class="ct-val">linkedin.com/in/anireeth-eagala007</span></div>
+        </a>
+        <a class="ct-row" href="https://github.com/anireeth7" target="_blank">
+          <div class="ct-ico"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></div>
+          <div><span class="ct-lbl">GitHub</span><span class="ct-val">github.com/anireeth7</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-l">Anireeth Eagala</div>
+  <div class="ft-c">&copy; 2026 Anireeth Eagala &nbsp;·&nbsp; Data Engineer Portfolio</div>
+  <div class="ft-r">
+    <a href="#home">Top</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+  </div>
+</footer>
+
+</body>
+</html>
